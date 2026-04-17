@@ -1,1 +1,1 @@
-# parkinson_speech_Detection
+# parkinson_speech_detection
