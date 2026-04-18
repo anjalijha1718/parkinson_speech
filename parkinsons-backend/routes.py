@@ -2,6 +2,8 @@ from flask import request
 from flask import jsonify
 from werkzeug.utils import secure_filename
 import threading, os
+import random
+import time
 
 from app import app
 from models import db,file_results
@@ -17,6 +19,15 @@ def parkinson_check(filename):
     prediction = predict(filename)
     global result
     result = int(prediction[0])
+
+
+def parkinson_check_demo(filename):
+    """Demo version that returns random result without ML model"""
+    global result
+    # Simulate processing time
+    time.sleep(2)
+    # Generate random probability between 30-80
+    result = random.randint(30, 80)
 
 
 @app.route('/')
@@ -37,6 +48,20 @@ def diagnose(filename):
     db.session.commit()
 
 
+def diagnose_demo(filename):
+    """Demo diagnose function without ML dependencies"""
+    parkinson_check_demo(filename)
+
+    global done
+    done = True
+
+    os.remove(filename)
+
+    file_result = file_results(filename, ip, result)
+    db.session.add(file_result)
+    db.session.commit()
+
+
 @app.route('/upload', methods=['POST'])
 def upload():
     f = request.files['file']
@@ -46,6 +71,22 @@ def upload():
     done = False
     ip = str(request.remote_addr)
     diagnose_thread = threading.Thread(target=diagnose, args=[filename])
+    diagnose_thread.daemon = True
+    diagnose_thread.start()
+
+    return "upload done"
+
+
+@app.route('/upload-demo', methods=['POST'])
+def upload_demo():
+    """Demo endpoint that works without ML model"""
+    f = request.files['file']
+    filename = secure_filename(f.filename)
+    f.save(filename)
+    global done, ip
+    done = False
+    ip = str(request.remote_addr)
+    diagnose_thread = threading.Thread(target=diagnose_demo, args=[filename])
     diagnose_thread.daemon = True
     diagnose_thread.start()
 

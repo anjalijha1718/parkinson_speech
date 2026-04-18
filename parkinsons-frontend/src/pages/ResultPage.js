@@ -1,25 +1,25 @@
 import React, { useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
-// Static list of nearby hospitals (can be replaced with API integration later)
+// Static list of nearby hospitals in Pune
 const NEARBY_HOSPITALS = [
   {
-    name: "City General Hospital",
-    address: "123 Main Street, Downtown",
-    phone: "+1 (555) 123-4567",
-    distance: "2.5 km"
+    name: "Ruby Hall Clinic",
+    address: "40, Sassoon Road, Near Pune Railway Station, Pune",
+    phone: "+91 20 6645 5100",
+    distance: "3.2 km"
   },
   {
-    name: "Neurology Care Center",
-    address: "456 Health Avenue, Medical District",
-    phone: "+1 (555) 987-6543",
-    distance: "4.2 km"
+    name: "Jehangir Hospital",
+    address: "32, Sassoon Road, Opposite Railway Station, Pune",
+    phone: "+91 20 6681 9999",
+    distance: "3.5 km"
   },
   {
-    name: "St. Mary's Hospital",
-    address: "789 Wellness Road, Uptown",
-    phone: "+1 (555) 456-7890",
-    distance: "5.8 km"
+    name: "Sahyadri Super Speciality Hospital",
+    address: "Plot No. 30-C, Karve Road, Deccan Gymkhana, Pune",
+    phone: "+91 20 6723 4000",
+    distance: "5.1 km"
   }
 ];
 
